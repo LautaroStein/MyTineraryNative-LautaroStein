@@ -2,13 +2,14 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Index from './Screens/Index'
+import Cities from './Screens/Cities'
 import Icon, { Icons } from './components/Icons';
 import * as Animatable from 'react-native-animatable';
 import React, { useEffect, useRef } from 'react'
 
 const TabArr = [
   { route: "Home" , label: "Home" , type: Icons.Ionicons , activeIcon: "home" , inActiveIcon: "home-outline" , component: Index },
-  { route: "Cities" , label: "Cities" , type: Icons.Ionicons , activeIcon: 'grid' , inActiveIcon: "grid-outline" , component: Index },
+  { route: "Cities" , label: "Cities" , type: Icons.Ionicons , activeIcon: 'grid' , inActiveIcon: "grid-outline" , component: Cities },
   { route: "User" , label: "User" , type: Icons.FontAwesome , activeIcon: 'user-circle' , inActiveIcon: 'user-circle-o' , component: Index  },
 ]
 
