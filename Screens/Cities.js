@@ -1,25 +1,62 @@
-import { StyleSheet, Text, View, ImageBackground, Image, Button, ScrollView } from 'react-native';
-import tw from "tailwind-react-native-classnames";
+import { StyleSheet, Text, View, ImageBackground, Image, Button, ScrollView, Dimensions } from 'react-native';
+import { connect } from "react-redux";
+import citiesActions from '../redux/actions/citiesActions';
+import Search from '../components/Search';
+import react, {useEffect} from "react"
 
-const Cities = () => {
+const widthScreen = Dimensions.get("window").width;
+
+const Cities = (props) => {
+    useEffect(() => {
+        props.fetchCities()
+    }, [])
+
     return (
         <ScrollView style={styles.main}>
-            <ImageBackground source={require('../assets/Fondo-Cities.png')} resizeMode='cover' style={tw`w-screen h-96`}>
-            <Text>hola</Text>
-            <Text>hola</Text>
-            <Text>hola</Text>
-
-            </ImageBackground>
+            <Search filter={props.filtrando} aux={props.aux} />
+            <View style={styles.contenedor}>
+                {
+                    props.cities.map(city => {
+                        return(
+                            <View key={city.pais}>
+                                <Image style={styles.image} source={{uri : city.img}}></Image>
+                                    <Text>{city.name}</Text>
+                            </View>
+                        )
+                    })
+                }
+            </View>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     main: {
-        fontFamily : 'IBM Plex Sans',
         flex: 1,
-        height: "100%",
+        height : 800,
         width: "100%",
+    },
+    contenedor : {
+        width : widthScreen,
+        alignItems : "center",
+    },
+    image : {
+        height : 400,
+        width : widthScreen -60,
+        marginTop : 10,
     }
 });
-export default Cities
+
+const mapDispatchToProps = {
+    fetchCities: citiesActions.fetchCities,
+    filtrando : citiesActions.filtroCity,
+}
+
+const mapStateToProps = (state) =>{
+    return { 
+        cities: state.citiesReducer.cities,
+        aux: state.citiesReducer.aux
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cities)
